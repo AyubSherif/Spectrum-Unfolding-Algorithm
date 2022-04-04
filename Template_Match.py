@@ -1,17 +1,8 @@
 def tamplate_match(in1, in2, mode='full', method='auto'):
     r"""
     Cross-correlate two N-dimensional arrays.
-    
-    in1 : array_like
-        First input.
-    in2 : array_like
-        Second input. Should have the same number of dimensions as `in1`.
-    
-    Returns
-    
-    correlate : array
-        An N-dimensional array containing a subset of the discrete linear
-        cross-correlation of `in1` with `in2`.
+    Second input. Should have the same number of dimensions as in1. 
+    Returns An N-dimensional array containing a subset of the discrete linear cross-correlation of in1 with in2.
     
     """
     in1 = np.asarray(in1)
