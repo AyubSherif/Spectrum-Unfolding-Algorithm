@@ -13,26 +13,23 @@ def tamplate_match(in1, in2, mode='full', method='auto'):
     elif in1.ndim != in2.ndim:
         raise ValueError("in1 and in2 should have the same dimensionality")
 
-    # Don't use _valfrommode, since correlate should not accept numeric modes
     try:
         val = _modedict[mode]
     except KeyError as e:
         raise ValueError("Acceptable mode flags are 'valid',"
                          " 'same', or 'full'.") from e
 
-    # this either calls fftconvolve or this function with method=='direct'
+   
     if method in ('fft', 'auto'):
         return convolve(in1, _reverse_and_conj(in2), mode, method)
 
     elif method == 'direct':
-        # fastpath to faster numpy.correlate for 1d inputs when possible
+      
         if _np_conv_ok(in1, in2, mode):
             return np.correlate(in1, in2, mode)
 
-        # _correlateND is far slower when in2.size > in1.size, so swap them
-        # and then undo the effect afterward if mode == 'full'.  Also, it fails
-        # with 'valid' mode if in2 is larger than in1, so swap those, too.
-        # Don't swap inputs for 'same' mode, since shape of in1 matters.
+        # when in2.size > in1.size swap them
+       
         swapped_inputs = ((mode == 'full') and (in2.size > in1.size) or
                           _inputs_swap_needed(mode, in1.shape, in2.shape))
 
